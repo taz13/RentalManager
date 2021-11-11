@@ -1,20 +1,31 @@
 from django.http import HttpResponse
-from django.shortcuts import render
 import requests
 
-# Create your views here.
+from RentalManager.ConfigManager import ConfigManager
+from RentalManager.firebase import Firebase
+
+
+firebaseDb = Firebase()
+
 def index(request):
+    provinceArray = ["Ontario", "Quebec", "New Brunswick", "Nova Scotia", "Newfoundland and Labrador", "British Columbia",
+                     "Alberta", "Manitoba", "Prince Edward Island", "Saskatchewan"]
 
+    configManager = ConfigManager('ApiConfig.properties')
+    for province in provinceArray:
+       url = configManager.getPropertyValue('ApiSection', 'api.url')
 
-    url = "https://zillow-com1.p.rapidapi.com/propertyExtendedSearch"
+       querystring = {"location": province, "status_type": "ForSale", "home_type": "Houses, Townhomes"}
 
-    querystring = {"location": "Ontario", "status_type": "ForSale", "home_type": "Houses, Townhomes"}
+       headers = {
+           'x-rapidapi-host': configManager.getPropertyValue('ApiSection', 'api.host'),
+           'x-rapidapi-key': configManager.getPropertyValue('ApiSection', 'api.key')
+       }
 
-    headers = {
-        'x-rapidapi-host': "zillow-com1.p.rapidapi.com",
-        'x-rapidapi-key': "be7b441027msh62351d6edecc63ap1c97a2jsnc5e03c8e0fe0"
-    }
+       response = requests.request("GET", url, headers=headers, params=querystring)
 
-    response = requests.request("GET", url, headers=headers, params=querystring)
+       propertiesJson = response.json()
 
-    return HttpResponse(response.text)
+       firebaseDb.savePropertiesToDb(propertiesJson,province)
+
+    return HttpResponse("Success")
