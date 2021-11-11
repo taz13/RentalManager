@@ -15,3 +15,6 @@ python3 get-pip.py
 
 #install Django
 pip3 install Django==3.2.8
+
+#install node
+brew install npm
