@@ -1,36 +1,45 @@
-<table>
+<table style="border: 1px solid black; border-radius: 10px; margin-left: auto;
+  margin-right: auto;">
     <tr>
-        <td>#</td>
-        <td>Address</td>
-        <td>City</td>
-        <td>Country</td>
-        <td>Image</td>
-        <td>Property Type</td>
-        <td>Price</td>
-        <td>Minimum Rent</td>
-        <td>Monthly mortgage</td>
-        <td>ZP ID</td>
+        <th>#</th>
+        <th>Address</th>
+        <th>City</th>
+        <th>Country</th>
+        <th>Image</th>
+        <th>Property Type</th>
+        <th>Price</th>
+        <th>Minimum Rent</th>
+        <th>Monthly cost</th>
+        <th>Net Income</th>
+        <th>ZP ID</th>
     </tr>
     {% for item in property_list %}
     <tr>
-        <td>{{forloop.counter}}</td>
+        <td style="border: 1px solid black; border-radius: 10px;">{{forloop.counter}}</td>
         <td><a href="{{item.mapUrl}}" target="_blank">{{item.address}}</a></td>
         <td>{{item.city}}</td>
         <td>{{item.country}}</td>
         <td><a href="{{item.imgSrc}}" target="_blank">Image</a></td>
         <td>{{item.propertyType}}</td>
         <td>{{item.price}}</td>
-        {% load mathfilters %}
-        {% with cost=item.minRent|sub:item.monthlyMortgage %}
-        {% with cost=cost|sub:750 %}
-        {% if cost > 0 %}
-            <td style="background-color:#00FF00">{{item.minRent}}</td>
+        {% if item.minRent > 0 and item.minRent <= 2500 %}
+            <td style="background-color:#27AE60">{{item.minRent}}</td>
+        {% elif item.minRent > 2500 and item.minRent < 3750%}
+            <td style="background-color:#F4D03F">{{item.minRent}}</td>
         {% else %}
-            <td style="background-color:#FF0000">{{item.minRent}}</td>
+            <td style="background-color:#CD6155">{{item.minRent}}</td>
+        {% endif %}
+        <td>{{item.monthlyMortgage}}</td>
+        {% load mathfilters %}
+        {% with netIncome=item.minRent|sub:item.monthlyMortgage %}
+        {% with netIncome=netIncome|sub:1000 %}
+        {% if netIncome > 0 %}
+            <td style="background-color:#27AE60">{{netIncome}}</td>
+        {% else %}
+            <td style="background-color:#CD6155">{{netIncome}}</td>
         {% endif %}
         {% endwith %}
         {% endwith %}
-        <td>{{item.monthlyMortgage}}</td>
         <td>{{item.zpId}}</td>
     </tr>
     {% endfor %}
