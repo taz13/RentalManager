@@ -20,7 +20,16 @@
         <td><a href="{{item.imgSrc}}" target="_blank">Image</a></td>
         <td>{{item.propertyType}}</td>
         <td>{{item.price}}</td>
-        <td>{{item.minRent}}</td>
+        {% load mathfilters %}
+        {% with cost=item.minRent|sub:item.monthlyMortgage %}
+        {% with cost=cost|sub:750 %}
+        {% if cost > 0 %}
+            <td style="background-color:#00FF00">{{item.minRent}}</td>
+        {% else %}
+            <td style="background-color:#FF0000">{{item.minRent}}</td>
+        {% endif %}
+        {% endwith %}
+        {% endwith %}
         <td>{{item.monthlyMortgage}}</td>
         <td>{{item.zpId}}</td>
     </tr>
