@@ -19,8 +19,12 @@ class Firebase:
             doc_ref = self.db.collection(province).document(propertyTitle)
             doc_ref.set(property.propertyInfoDict)
 
-    def getPropertiesData(self,province):
-        docs = self.db.collection(province).stream()
+    def getPropertiesData(self,location):
+        if "-" in location:
+            locationParams=location.split("-")
+            docs = self.db.collection(locationParams[1]).where(u'city', u'==', locationParams[0]).stream()
+        else:
+            docs = self.db.collection(location).order_by(u'price').stream()
 
         propertyList = []
         if docs is None:

@@ -16,9 +16,9 @@ def getPropertyData(request):
 
     return HttpResponse("Success")
 
-def getRentEstimate(request,province):
+def getRentEstimate(request, location):
     try:
-        propertiesList = firebaseDb.getPropertiesData(province)
+        propertiesList = firebaseDb.getPropertiesData(location)
     except Exception as e:
         raise Http404("Error getting property data!!!")
     return render(request, 'rentEstimator/index.html', {'property_list' : propertiesList})
