@@ -8,18 +8,20 @@
         <td>Property Type</td>
         <td>Price</td>
         <td>Minimum Rent</td>
+        <td>Monthly mortgage</td>
         <td>ZP ID</td>
     </tr>
     {% for item in property_list %}
     <tr>
         <td>{{forloop.counter}}</td>
-        <td>{{item.address}}</td>
+        <td><a href="{{item.mapUrl}}" target="_blank">{{item.address}}</a></td>
         <td>{{item.city}}</td>
         <td>{{item.country}}</td>
         <td><a href="{{item.imgSrc}}" target="_blank">Image</a></td>
         <td>{{item.propertyType}}</td>
         <td>{{item.price}}</td>
         <td>{{item.minRent}}</td>
+        <td>{{item.monthlyMortgage}}</td>
         <td>{{item.zpId}}</td>
     </tr>
     {% endfor %}
