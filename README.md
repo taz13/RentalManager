@@ -20,5 +20,5 @@ To run the application run the following command in terminal:
 Example of API end point:
 
 1. Get all properties for a province: http://127.0.0.1:8000/rentalManager/rentEstimate/Ontario
-2. Get all properties for a city: http://127.0.0.1:8000/rentalManager/rentEstimate/Saint_Patrick's_Parish,Prince_Edward_Island
+2. Get all properties for a city: http://127.0.0.1:8000/rentalManager/rentEstimate/Saint%20Patrick's%20Parish-Prince%20Edward%20Island
 3. Update db with latest property info: http://127.0.0.1:8000/rentalManager/GetPropertyData
